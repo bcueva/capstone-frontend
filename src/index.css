@@ -1,0 +1,17 @@
+:root {
+  --white: #FFFFFF;
+  --sidebar-background: #FCFCFD;
+  --primary-color: #2d79f3;
+  --background: #C7D2DC;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Work Sans' ,Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  background: var(--background);
+}

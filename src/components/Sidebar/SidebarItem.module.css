@@ -1,0 +1,38 @@
+.sidebar-item {
+  height: 50px;
+}
+
+.sidebar-item a {
+  text-decoration: none;
+  color: var(--primary-color);
+  background-color: transparent;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  transition: var(--tran-03);
+  gap: 1rem;
+}
+
+.sidebar-item a svg {
+  width: 2rem;
+  object-fit: contain;
+}
+
+.sidebar-item .text {
+  font-size: 17px;
+  font-weight: 500;
+  white-space: nowrap;
+  opacity: 1;
+}
+
+.sidebar-item .text,
+.sidebar-item .icon {
+  color: var(--text-color);
+  transition: var(--tran-03);
+}
+
+.sidebar-item a:hover .icon,
+.sidebar-item a:hover .text {
+  color: var(--sidebar-color);
+}
