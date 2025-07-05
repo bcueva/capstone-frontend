@@ -10,8 +10,12 @@ import LockIcon from '../../assets/icons/LockIcon.jsx'
 import BriefcaseIcon from '../../assets/icons/BriefcaseIcon.jsx'
 import CalculatorIcon from '../../assets/icons/CalculatorIcon.jsx'
 import { useAuthStore } from '../../stores/useAuthStore.jsx'
+import { useLocation } from 'wouter'
+import CloseIcon from '../../assets/icons/CloseIcon.jsx'
 
 const Sidebar = () => {
+  const [, setLocation] = useLocation()
+  const logout = useAuthStore((state) => state.logout)
   const checkAuth = useAuthStore((state) => state.checkAuth)
   const { user } = checkAuth()
 
@@ -53,6 +57,12 @@ const Sidebar = () => {
         {user.permissions.includes('VentasR') && (
           <SidebarItem href='/ventas' text='Ventas' icon={<CartIcon />} />
         )}
+        <SidebarItem
+          onClick={() => {
+            logout()
+            setLocation('/login')
+          }} text='Cerrar sesión' icon={<CloseIcon />}
+        />
       </ul>
     </nav>
   )
