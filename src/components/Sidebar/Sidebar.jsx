@@ -28,19 +28,19 @@ const Sidebar = () => {
         {user.permissions.includes('Dashboard') && (
           <SidebarItem href='/' text='Dashboard' icon={<HomeIcon />} />
         )}
-        {user.permissions.includes('Dashboard') && (
+        {user.permissions.includes('PermisosR') && (
           <SidebarItem href='/permisos' text='Permisos' icon={<LockIcon />} />
         )}
-        {user.permissions.includes('Dashboard') && (
+        {user.permissions.includes('RolesR') && (
           <SidebarItem href='/roles' text='Roles' icon={<TagIcon />} />
         )}
-        {user.permissions.includes('Dashboard') && (
+        {user.permissions.includes('UsuariosR') && (
           <SidebarItem href='/usuarios' text='Usuarios' icon={<UsersIcon />} />
         )}
-        {user.permissions.includes('Dashboard') && (
+        {user.permissions.includes('ProductosR') && (
           <SidebarItem href='/productos' text='Productos' icon={<BoxIcon />} />
         )}
-        {user.permissions.includes('Dashboard') && (
+        {user.permissions.includes('EmpresasR') && (
           <SidebarItem
             href='/empresas'
             text='Empresas'
