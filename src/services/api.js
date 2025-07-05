@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const URL_BACKEND = 'http://localhost:3000/api/v1'
+const URL_BACKEND = '/api/v1'
 export const URL_BACKEND_IMG = '/uploads'
 
 export const api = axios.create({
