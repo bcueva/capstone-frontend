@@ -31,10 +31,10 @@ const Search = ({
   const handleSelect = (suggestion) => {
     setQuery(suggestion[labelField])
     setSuggestions([])
-    const evt = { target: { name, value: suggestion[keyField] } }
     if (onSelect) {
-      onSelect(evt)
+      onSelect(suggestion)
     }
+    setSuggestions([])
   }
 
   return (

@@ -33,13 +33,22 @@ const useForm = (defaultValues) => {
     })
   }
 
+  const updateForm = (newForm) => {
+    setForm((prevForm) => {
+      return {
+        ...prevForm,
+        ...newForm
+      }
+    })
+  }
+
   const handleSubmit = (onSubmit) => (evt) => {
     evt.preventDefault()
     onSubmit(form)
     setForm({})
   }
 
-  return { form, handleChange, handleSubmit }
+  return { form, handleChange, updateForm, handleSubmit }
 }
 
 useForm.propTypes = {

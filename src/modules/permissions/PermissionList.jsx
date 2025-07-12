@@ -73,18 +73,18 @@ const PermissionList = (props) => {
         }}
       >
         <h2>Permisos</h2>
-        <Button onClick={() => openModal('createPermission')}>
+        {/* <Button onClick={() => openModal('createPermission')}>
           Nuevo permiso
-        </Button>
+        </Button> */}
       </div>
       <Table
         data={permissions}
         columns={columns}
-        fnEdit={(permission) => {
-          setSelectedPermission(permission)
-          openModal('editPermission')
-        }}
-        fnDelete={removePermission}
+        // fnEdit={(permission) => {
+        //   setSelectedPermission(permission)
+        //   openModal('editPermission')
+        // }}
+        // fnDelete={removePermission}
       />
     </>
   )

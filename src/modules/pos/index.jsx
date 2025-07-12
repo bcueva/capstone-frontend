@@ -21,7 +21,7 @@ const columnProperties = [
 
 const POSPage = () => {
   const { form, handleChange } = useForm()
-  const { form: formProduct, handleChange: handleChangeProduct } = useForm()
+  const { form: formProduct, handleChange: handleChangeProduct, updateForm } = useForm()
 
   const [amounts, setAmounts] = useState({
     total: '0',
@@ -42,6 +42,11 @@ const POSPage = () => {
     setAmounts({ total, igv, subtotal })
   }
 
+  const handleSelectProduct = async (product) => {
+    const newForm = { productCode: product.code, productPrice: product.price }
+    updateForm(newForm)
+  }
+
   const handleChangeProduct2 = async (evt) => {
     evt.preventDefault()
     const text = formProduct.productCode.trim()
@@ -54,15 +59,11 @@ const POSPage = () => {
         return
       }
 
-      const { price } = res.data
-
-      // if (stockDisponible < 1) {
-      //   toast.error('No hay stock disponible')
-      //   return
-      // }
+      const price = parseFloat(formProduct.productPrice.trim())
 
       const product = {
         ...res.data,
+        price,
         quantity: formProduct.productQuantity,
         total: price * formProduct.productQuantity
       }
@@ -180,7 +181,7 @@ const POSPage = () => {
                   id='productCode'
                   name='productCode'
                   type='tel'
-                  onSelect={handleChangeProduct}
+                  onSelect={handleSelectProduct}
                   fetchSuggestions={getSuggestionsProducts}
                   keyField='code'
                   labelField='name'
