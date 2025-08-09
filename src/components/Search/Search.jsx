@@ -14,7 +14,7 @@ const Search = ({
   labelField,
   ...props
 }) => {
-  const [query, setQuery] = useState('')
+  const [query, setQuery] = useState(value)
   const [suggestions, setSuggestions] = useState([])
 
   const handleChange = (evt) => {

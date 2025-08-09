@@ -7,11 +7,11 @@ import TagIcon from '../../assets/icons/TagIcon.jsx'
 import HomeIcon from '../../assets/icons/HomeIcon.jsx'
 import UsersIcon from '../../assets/icons/UsersIcon.jsx'
 import LockIcon from '../../assets/icons/LockIcon.jsx'
-import BriefcaseIcon from '../../assets/icons/BriefcaseIcon.jsx'
 import CalculatorIcon from '../../assets/icons/CalculatorIcon.jsx'
 import { useAuthStore } from '../../stores/useAuthStore.jsx'
 import { useLocation } from 'wouter'
 import CloseIcon from '../../assets/icons/CloseIcon.jsx'
+import TableIcon from '../../assets/icons/TableIcon.jsx'
 
 const Sidebar = () => {
   const [, setLocation] = useLocation()
@@ -24,7 +24,7 @@ const Sidebar = () => {
       <div className={styles['sidebar-top-wrapper']}>
         <div className={styles['sidebar-top']}>
           <a href='/'>
-            <img className={styles.logo} src={logo} alt='Lúcuma logo' />
+            <img className={styles.logo} src={logo} alt='Asturiano logo' />
           </a>
         </div>
       </div>
@@ -46,9 +46,9 @@ const Sidebar = () => {
         )}
         {user.permissions.includes('EmpresasR') && (
           <SidebarItem
-            href='/empresas'
-            text='Empresas'
-            icon={<BriefcaseIcon />}
+            href='/mesas'
+            text='Mesas'
+            icon={<TableIcon />}
           />
         )}
         {user.permissions.includes('VentasC') && (

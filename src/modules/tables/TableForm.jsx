@@ -5,10 +5,10 @@ import Button from '../../components/Button/Button'
 import Dialog from '../../components/Dialog/Dialog'
 import Checkbox from '../../components/Checkbox/Checkbox'
 
-const ProductForm = ({ isOpen, product, onSubmit, onCancel }) => {
-  const { form, handleChange, handleSubmit } = useForm(product)
+const TableForm = ({ isOpen, table, onSubmit, onCancel }) => {
+  const { form, handleChange, handleSubmit } = useForm(table)
 
-  const submitText = product ? 'Editar' : 'Crear'
+  const submitText = table ? 'Editar' : 'Crear'
 
   return (
     <Dialog open={isOpen}>
@@ -17,30 +17,28 @@ const ProductForm = ({ isOpen, product, onSubmit, onCancel }) => {
         style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}
       >
         <Input
-          id='name'
-          type='text'
-          name='name'
-          label='Nombre'
-          value={form.name}
-          onChange={handleChange}
-        />
-        <Input
-          id='description'
-          type='text'
-          name='description'
-          label='Descripción'
-          value={form.description}
-          onChange={handleChange}
-        />
-        <Input
-          id='price'
+          id='number'
           type='number'
-          name='price'
-          label='Precio'
-          value={form.price}
+          name='number'
+          label='N° mesa'
+          value={form.number}
           onChange={handleChange}
         />
-        <Checkbox id='is_active' name='is_active' label='Estado' checked={form.is_active || true} onChange={handleChange} />
+        <Input
+          id='capacity'
+          type='number'
+          name='capacity'
+          label='Capacidad'
+          value={form.capacity}
+          onChange={handleChange}
+        />
+        <Checkbox
+          id='is_active'
+          label='Estado'
+          name='is_active'
+          checked={form?.is_active || true}
+          onChange={handleChange}
+        />
         <div
           style={{
             paddingTop: '1rem',
@@ -50,18 +48,21 @@ const ProductForm = ({ isOpen, product, onSubmit, onCancel }) => {
           }}
         >
           <Button type='submit'>{submitText}</Button>
-          <Button type='button' variant='ghost' onClick={onCancel}>Cancelar</Button>
+          <Button type='button' variant='ghost' onClick={onCancel}>
+            {' '}
+            Cancelar
+          </Button>
         </div>
       </form>
     </Dialog>
   )
 }
 
-ProductForm.propTypes = {
+TableForm.propTypes = {
   isOpen: PropTypes.bool,
-  product: PropTypes.any,
+  table: PropTypes.any,
   onSubmit: PropTypes.func,
   onCancel: PropTypes.func
 }
 
-export default ProductForm
+export default TableForm

@@ -7,6 +7,7 @@ import RoleList from './modules/roles/RoleList'
 import PermissionList from './modules/permissions/PermissionList'
 import SaleList from './modules/sales/SaleList'
 import CompanyList from './modules/companies/CompanyList'
+import TableList from './modules/tables/TableList'
 import POSPage from './modules/pos'
 import { useAuthStore } from './stores/useAuthStore'
 import Dashboard from './modules/dashboard'
@@ -44,6 +45,7 @@ const ProtectedRoutes = () => {
           <Route path='/permisos' component={PermissionList} />
           <Route path='/productos' component={ProductList} />
           <Route path='/empresas' component={CompanyList} />
+          <Route path='/mesas' component={TableList} />
           <Route path='/ventas' component={SaleList} />
           <Route path='/pos' component={POSPage} />
           <Route>404 - Página no encontrada</Route>
