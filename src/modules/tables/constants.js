@@ -9,10 +9,12 @@ export const columns = [
   },
   {
     text: 'Disponible',
-    property: 'is_available'
+    property: 'is_available',
+    type: 'boolean'
   },
   {
     text: 'Estado',
-    property: 'is_active'
+    property: 'is_active',
+    type: 'boolean'
   }
 ]

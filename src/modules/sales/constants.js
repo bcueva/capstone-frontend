@@ -5,19 +5,15 @@ export const columns = [
     type: 'date'
   },
   {
-    text: 'RUC Empresa',
-    property: 'ruc'
-  },
-  {
-    text: 'Empresa',
-    property: 'company_name'
+    text: 'Vendedor',
+    property: 'name'
   },
   {
     text: 'Importe',
     property: 'amount'
   },
   {
-    text: 'Vendedor',
-    property: 'name'
+    text: 'Metodo de pago',
+    property: 'pay_type'
   }
 ]

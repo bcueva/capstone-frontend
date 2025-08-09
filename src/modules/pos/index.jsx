@@ -12,7 +12,7 @@ import { getAllTables } from '../tables/tableService'
 import Search from '../../components/Search/Search'
 import { getSuggestionsProducts } from './posService'
 import Select from '../../components/Select/Select'
-import { jsPDF } from 'jspdf'
+import { jsPDF as JsPDF } from 'jspdf'
 import autoTable from 'jspdf-autotable'
 import { useAuthStore } from '../../stores/useAuthStore'
 import logo from '../../assets/images/logo'
@@ -49,7 +49,10 @@ const getDatetime = (format) => {
 
 const POSPage = () => {
   const user = useAuthStore((state) => state.user)
-  const { form, handleChange } = useForm()
+  const { form, handleChange } = useForm({
+    number: 1,
+    payType: 'Efectivo'
+  })
   const {
     form: formProduct,
     handleChange: handleChangeProduct,
@@ -174,7 +177,7 @@ const POSPage = () => {
 
   const generarBoleta = () => {
     // Configurar tamaño tipo ticket (80mm x 200mm)
-    const doc = new jsPDF({
+    const doc = new JsPDF({
       unit: 'mm',
       format: [80, 200]
     })
@@ -204,9 +207,9 @@ const POSPage = () => {
     doc.text('B003 - 00096052', 40, y, { align: 'center' })
     y += 6
 
-    doc.text(`F. Emisión: ${getDatetime('DD/MM/AAAA hh:mm:ss')}`, 5, y)
+    doc.text(`F. Emisión: ${getDatetime('DD/MM/YYYY hh:mm:ss')}`, 5, y)
     y += 4
-    doc.text('Caja: A010/323', 5, y)
+    doc.text('Caja: 1', 5, y)
     y += 4
     doc.text(`Cajero: ${user.name} ${user.last_name}`, 5, y)
     y += 4
@@ -240,6 +243,11 @@ const POSPage = () => {
     doc.text(`Importe total: S/ ${amounts.total}`, 5, y)
     y += 6
 
+    // Pago
+    doc.setFont('helvetica', 'normal')
+    doc.text(`Tipo de pago: ${form.payType} S/ ${amounts.total}`, 5, y)
+    y += 4
+
     // Pie de página
     doc.setFontSize(7)
     doc.text(
@@ -268,7 +276,7 @@ const POSPage = () => {
                   name='date'
                   label='Fecha'
                   type='date'
-                  value={getDatetime('YYYY-MM-MM')}
+                  value={getDatetime('YYYY-MM-DD')}
                   onChange={handleChange}
                   disabled
                 />
@@ -303,10 +311,22 @@ const POSPage = () => {
                 value={amounts.total}
                 readOnly
               />
+              <Select
+                id='payType'
+                name='payType'
+                label='Tipo de pago'
+                value={form.payType}
+                onChange={handleChange}
+                style={{ width: '7rem' }}
+              >
+                <option value='Efectivo'>Efectivo</option>
+                <option value='Tarjeta'>Tarjeta</option>
+                <option value='Yape'>Yape</option>
+                <option value='Plin'>Plin</option>
+              </Select>
               <Button onClick={sendSale} disabled={!products.length}>
                 Registrar venta
               </Button>
-              <Button onClick={generarBoleta}>Registrar venta</Button>
             </div>
           </div>
 

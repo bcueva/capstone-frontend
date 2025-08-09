@@ -4,9 +4,9 @@ import PropTypes from 'prop-types'
 const useForm = (defaultValues) => {
   const [form, setForm] = useState(defaultValues || {})
 
-  useEffect(() => {
-    setForm(defaultValues || {})
-  }, [defaultValues])
+  // useEffect(() => {
+  //   setForm(defaultValues || {})
+  // }, [defaultValues])
 
   const handleChange = (evt) => {
     const { name, value, type, checked, selectedIndex, files } = evt.target

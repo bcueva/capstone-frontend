@@ -1,9 +1,9 @@
 import styles from './SidebarItem.module.css'
 import PropTypes from 'prop-types'
 
-const SidebarItem = ({ href, text, icon, onClick }) => {
+const SidebarItem = ({ href, text, icon, onClick, ...props }) => {
   return (
-    <li className={styles['sidebar-item']} onClick={onClick}>
+    <li className={styles['sidebar-item']} onClick={onClick} {...props}>
       <a href={href}>
         {icon}
         <span className={styles.text}>{text}</span>

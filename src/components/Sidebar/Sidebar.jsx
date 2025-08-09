@@ -44,7 +44,7 @@ const Sidebar = () => {
         {user.permissions.includes('ProductosR') && (
           <SidebarItem href='/productos' text='Productos' icon={<BoxIcon />} />
         )}
-        {user.permissions.includes('EmpresasR') && (
+        {user.permissions.includes('MesasR') && (
           <SidebarItem
             href='/mesas'
             text='Mesas'
@@ -57,13 +57,14 @@ const Sidebar = () => {
         {user.permissions.includes('VentasR') && (
           <SidebarItem href='/ventas' text='Ventas' icon={<CartIcon />} />
         )}
-        <SidebarItem
-          onClick={() => {
-            logout()
-            setLocation('/login')
-          }} text='Cerrar sesión' icon={<CloseIcon />}
-        />
       </ul>
+      <SidebarItem
+        style={{ marginTop: 'auto' }}
+        onClick={() => {
+          logout()
+          setLocation('/login')
+        }} text='Cerrar sesión' icon={<CloseIcon />}
+      />
     </nav>
   )
 }

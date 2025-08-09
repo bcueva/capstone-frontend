@@ -1,6 +1,8 @@
 import PropTypes from 'prop-types'
 import styles from './Table.module.css'
 import Button from '../Button/Button'
+import XIcon from '../../assets/icons/XIcon'
+import CheckIcon from '../../assets/icons/CheckIcon'
 
 const Table = ({ data, columns, fnEdit, fnDelete }) => {
   return (
@@ -8,7 +10,9 @@ const Table = ({ data, columns, fnEdit, fnDelete }) => {
       <thead className={styles.thead}>
         <tr className={styles.tr}>
           {columns.map((column, i) => (
-            <th className={styles.th} key={i}>{column.text}</th>
+            <th className={styles.th} key={i}>
+              {column.text}
+            </th>
           ))}
           {fnEdit && <th className={styles.th}>Editar</th>}
           {fnDelete && <th className={styles.th}>Eliminar</th>}
@@ -19,17 +23,45 @@ const Table = ({ data, columns, fnEdit, fnDelete }) => {
           <tr key={row.id} className={styles.tr}>
             {columns.map((column, i) => (
               <td key={`row-${row.id}-col-${i}`} className={styles.td}>
-                {column.type === 'date'
-                  ? (
-                      row[column.property].split('T')[0]
-                    )
-                  : (
-                      row[column.property]
-                    )}
+                {(() => {
+                  const value = row[column.property]
+
+                  if (column.type === 'date') {
+                    return value?.split?.('T')?.[0] || ''
+                  }
+
+                  if (column.type === 'boolean') {
+                    return value
+                      ? <CheckIcon style={{
+                        width: '1.5rem',
+                        objectFit: 'contain',
+                        color: '#008F39'
+                      }}
+                        />
+                      : <XIcon style={{
+                        width: '1.5rem',
+                        objectFit: 'contain',
+                        color: '#FF0000'
+                      }}
+                        />
+                  }
+
+                  return value
+                })()}
               </td>
             ))}
-            {fnEdit && <td className={styles.td}><Button onClick={() => fnEdit(row)}>Editar</Button></td>}
-            {fnDelete && <td className={styles.td}><Button variant='danger' onClick={() => fnDelete(row)}>Eliminar</Button></td>}
+            {fnEdit && (
+              <td className={styles.td}>
+                <Button onClick={() => fnEdit(row)}>Editar</Button>
+              </td>
+            )}
+            {fnDelete && (
+              <td className={styles.td}>
+                <Button variant='danger' onClick={() => fnDelete(row)}>
+                  Eliminar
+                </Button>
+              </td>
+            )}
           </tr>
         ))}
       </tbody>

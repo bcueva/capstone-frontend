@@ -21,7 +21,7 @@ const Search = ({
     const { value } = evt.target
     setQuery(value)
 
-    if (value?.length > 3) {
+    if (value?.length >= 3) {
       fetchSuggestions({ query: value })
         .then(({ data }) => setSuggestions(data))
         .catch(() => setSuggestions([]))

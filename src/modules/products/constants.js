@@ -10,9 +10,5 @@ export const columns = [
   {
     text: 'Precio',
     property: 'price'
-  },
-  {
-    text: 'Estado',
-    property: 'is_active'
   }
 ]
