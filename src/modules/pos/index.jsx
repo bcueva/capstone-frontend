@@ -22,7 +22,7 @@ const columnProperties = [
   { text: 'Producto', property: 'name' },
   { text: 'Cantidad', property: 'quantity' },
   { text: 'Precio', property: 'price' },
-  { text: 'Observaciones', property: 'observations' },
+  { text: 'Observaciones', property: 'observation' },
   { text: 'Total', property: 'total' }
 ]
 
@@ -123,7 +123,7 @@ const POSPage = ({ params }) => {
         price,
         quantity: formProduct.productQuantity,
         total: price * formProduct.productQuantity,
-        observations: formProduct.observations
+        observation: formProduct.observation
       }
 
       updateProducts([...products, product])
@@ -152,12 +152,12 @@ const POSPage = ({ params }) => {
   }
 
   const sendSale = async () => {
-    const details = products.map(({ id, quantity, price }) => ({
+    const details = products.map(({ id, quantity, price, observation }) => ({
       id,
       quantity,
-      price
+      price,
+      observation
     }))
-    console.log(form)
 
     const sale = {
       companyRuc: form.companyRuc,
@@ -179,10 +179,11 @@ const POSPage = ({ params }) => {
   }
 
   const endSale = async () => {
-    const details = products.map(({ id, quantity, price }) => ({
+    const details = products.map(({ id, quantity, price, observation }) => ({
       id,
       quantity,
-      price
+      price,
+      observation
     }))
 
     const sale = {
@@ -207,10 +208,11 @@ const POSPage = ({ params }) => {
   }
 
   const updateSale = async () => {
-    const details = products.map(({ id, quantity, price }) => ({
+    const details = products.map(({ id, quantity, price, observation }) => ({
       id,
       quantity,
-      price
+      price,
+      observation
     }))
 
     const sale = {
@@ -452,10 +454,10 @@ const POSPage = ({ params }) => {
                 />
                 <Input
                   label='Observaciones'
-                  id='observations'
-                  name='observations'
+                  id='observation'
+                  name='observation'
                   type='text'
-                  value={formProduct.observations}
+                  value={formProduct.observation}
                   onChange={handleChangeProduct}
                 />
                 <div style={{ alignSelf: 'center' }}>
