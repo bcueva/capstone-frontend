@@ -4,7 +4,7 @@ import Button from '../Button/Button'
 import XIcon from '../../assets/icons/XIcon'
 import CheckIcon from '../../assets/icons/CheckIcon'
 
-const Table = ({ data, columns, fnEdit, fnDelete }) => {
+const Table = ({ data, columns, fnEdit, fnDelete, fnActions }) => {
   return (
     <table className={styles.table}>
       <thead className={styles.thead}>
@@ -16,6 +16,7 @@ const Table = ({ data, columns, fnEdit, fnDelete }) => {
           ))}
           {fnEdit && <th className={styles.th}>Editar</th>}
           {fnDelete && <th className={styles.th}>Eliminar</th>}
+          {fnActions && <th className={styles.th}>Acciones</th>}
         </tr>
       </thead>
       <tbody className={styles.tbody}>
@@ -32,18 +33,24 @@ const Table = ({ data, columns, fnEdit, fnDelete }) => {
 
                   if (column.type === 'boolean') {
                     return value
-                      ? <CheckIcon style={{
-                        width: '1.5rem',
-                        objectFit: 'contain',
-                        color: '#008F39'
-                      }}
+                      ? (
+                        <CheckIcon
+                          style={{
+                            width: '1.5rem',
+                            objectFit: 'contain',
+                            color: '#008F39'
+                          }}
                         />
-                      : <XIcon style={{
-                        width: '1.5rem',
-                        objectFit: 'contain',
-                        color: '#FF0000'
-                      }}
+                        )
+                      : (
+                        <XIcon
+                          style={{
+                            width: '1.5rem',
+                            objectFit: 'contain',
+                            color: '#FF0000'
+                          }}
                         />
+                        )
                   }
 
                   return value
@@ -62,6 +69,18 @@ const Table = ({ data, columns, fnEdit, fnDelete }) => {
                 </Button>
               </td>
             )}
+            {fnActions &&
+              fnActions.map((fnAction, id) =>
+                !row[fnAction.show]
+                  ? (
+                    <td key={`btnAction-${id}`} className={styles.td}>
+                      <Button onClick={() => fnAction.function(row)}>
+                        {fnAction.label}
+                      </Button>
+                    </td>
+                    )
+                  : null
+              )}
           </tr>
         ))}
       </tbody>

@@ -48,6 +48,7 @@ const ProtectedRoutes = () => {
           <Route path='/mesas' component={TableList} />
           <Route path='/ventas' component={SaleList} />
           <Route path='/pos' component={POSPage} />
+          <Route path='/pos/:id' component={POSPage} />
           <Route>404 - Página no encontrada</Route>
         </Switch>
       </main>

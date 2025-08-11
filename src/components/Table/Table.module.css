@@ -39,3 +39,14 @@
   aspect-ratio: 16/9;
   object-fit: cover;
 }
+
+.tdActions {
+  padding: 10px;
+  font-size: 14px;
+  color: #000;
+  text-align: center;
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+  padding: auto;
+}

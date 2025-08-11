@@ -10,8 +10,10 @@ import { columns } from './constants'
 import Button from '../../components/Button/Button'
 import useModal from '../../hooks/useModal'
 import TableForm from './TableForm'
+import { useLocation } from 'wouter'
 
 const TableList = (props) => {
+  const [, setLocation] = useLocation()
   const [tables, setTables] = useState([])
   const [selectedTable, setSelectedTable] = useState(null)
   const { isModalOpen, openModal, closeModal } = useModal()
@@ -85,6 +87,15 @@ const TableList = (props) => {
           openModal('editTable')
         }}
         fnDelete={removeTable}
+        fnActions={[
+          {
+            show: 'is_available',
+            label: 'Ver pedido',
+            function: (row) => {
+              setLocation(`/pos/${row.sale_id}`)
+            }
+          }
+        ]}
       />
     </>
   )

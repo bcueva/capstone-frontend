@@ -3,12 +3,12 @@ import styles from './Pos.module.css'
 import { useEffect, useState } from 'react'
 // import { getProductForSale } from '../../services/product'
 import { toast, Toaster } from 'sonner'
-import { postSale } from '../sales/saleService'
+import { getSaleBy, patchSale, postSale } from '../sales/saleService'
 import Input from '../../components/Input/Input'
 import Button from '../../components/Button/Button'
 import Table from '../../components/Table/Table'
 import { getProductByCode } from '../products/productService'
-import { getAllTables } from '../tables/tableService'
+import { getAvailableTables } from '../tables/tableService'
 import Search from '../../components/Search/Search'
 import { getSuggestionsProducts } from './posService'
 import Select from '../../components/Select/Select'
@@ -47,16 +47,16 @@ const getDatetime = (format) => {
   return format
 }
 
-const POSPage = () => {
+const POSPage = ({ params }) => {
   const user = useAuthStore((state) => state.user)
-  const { form, handleChange } = useForm({
-    number: 1,
+  const { form, handleChange, updateForm } = useForm({
+    number: '',
     payType: 'Efectivo'
   })
   const {
     form: formProduct,
     handleChange: handleChangeProduct,
-    updateForm
+    updateForm: updateFormProduct
   } = useForm()
 
   const [amounts, setAmounts] = useState({
@@ -68,6 +68,18 @@ const POSPage = () => {
   const [products, setProducts] = useState([])
   const [tables, setTables] = useState([])
 
+  useEffect(() => {
+    if (params?.id) {
+      getSaleBy({ id: params.id }).then((res) => {
+        setProducts(res.data.details)
+        calculateAmounts(res.data.details)
+        setTables([...res.data.table])
+        updateForm({ number: res.number })
+      })
+    }
+    return () => {}
+  }, [params])
+
   const calculateAmounts = (products) => {
     let total = products.reduce(
       (total, { price, quantity }) => total + price * quantity,
@@ -77,6 +89,9 @@ const POSPage = () => {
     const subtotal = parseFloat((total * 0.82).toFixed(2))
     const igv = parseFloat((subtotal * 0.18).toFixed(2))
     setAmounts({ total, igv, subtotal })
+    setProducts((productsPrev) => {
+      return productsPrev.map(product => (({ ...product, total: parseFloat(product.quantity * product.price) })))
+    })
   }
 
   const handleSelectProduct = async (product) => {
@@ -85,7 +100,8 @@ const POSPage = () => {
       productPrice: product.price,
       productQuantity: 1
     }
-    updateForm(newForm)
+    updateFormProduct(newForm)
+    console.log(form)
   }
 
   const handleChangeProduct2 = async (evt) => {
@@ -111,7 +127,7 @@ const POSPage = () => {
       }
 
       updateProducts([...products, product])
-      updateForm({
+      updateFormProduct({
         productCode: '',
         productPrice: '',
         productQuantity: '',
@@ -141,13 +157,43 @@ const POSPage = () => {
       quantity,
       price
     }))
+    console.log(form)
+
     const sale = {
       companyRuc: form.companyRuc,
+      tableId: form.number,
       details
     }
 
     try {
       const res = await postSale(sale)
+      if (res.status === 'success') {
+        toast.success('Pedido registrado con exito')
+        clearSale()
+      } else {
+        toast.error('No se pudo registrar el pedido')
+      }
+    } catch {
+      toast.error('No se grabó el pedido')
+    }
+  }
+
+  const endSale = async () => {
+    const details = products.map(({ id, quantity, price }) => ({
+      id,
+      quantity,
+      price
+    }))
+
+    const sale = {
+      id: params.id,
+      tableId: tables[0]?.id,
+      endSale: true,
+      details
+    }
+
+    try {
+      const res = await patchSale(sale)
       if (res.status === 'success') {
         toast.success('Venta registrada con exito')
         generarBoleta()
@@ -156,7 +202,32 @@ const POSPage = () => {
         toast.error('No se pudo registrar la venta')
       }
     } catch {
-      toast.error('No se grabó la venta')
+      toast.error('No se actualizó la venta')
+    }
+  }
+
+  const updateSale = async () => {
+    const details = products.map(({ id, quantity, price }) => ({
+      id,
+      quantity,
+      price
+    }))
+
+    const sale = {
+      id: params.id,
+      details
+    }
+
+    try {
+      const res = await patchSale(sale)
+      if (res.status === 'success') {
+        toast.success('Pedido actualizo con exito')
+        clearSale()
+      } else {
+        toast.error('No se pudo actualizar el pedido')
+      }
+    } catch {
+      toast.error('No se actualizó el pedido')
     }
   }
 
@@ -168,10 +239,12 @@ const POSPage = () => {
   }
 
   useEffect(() => {
-    getAllTables().then((res) => {
-      setTables(res.data)
-    })
-
+    if (!params.id) {
+      getAvailableTables().then((res) => {
+        setTables(res.data)
+        updateForm({ number: res.data?.[0]?.id })
+      })
+    }
     return () => {}
   }, [])
 
@@ -289,6 +362,7 @@ const POSPage = () => {
                   placeholder='Ejem: 1'
                   value={form.number}
                   onChange={handleChange}
+                  disabled={params.id}
                 >
                   {tables.map(({ id, number }) => (
                     <option key={id} value={id}>
@@ -324,9 +398,21 @@ const POSPage = () => {
                 <option value='Yape'>Yape</option>
                 <option value='Plin'>Plin</option>
               </Select>
-              <Button onClick={sendSale} disabled={!products.length}>
-                Registrar venta
-              </Button>
+              {!params.id && (
+                <Button onClick={sendSale} disabled={!products.length}>
+                  Registrar pedido
+                </Button>
+              )}
+              {params.id && (
+                <Button onClick={updateSale} disabled={!products.length}>
+                  Actualizar pedido
+                </Button>
+              )}
+              {params.id && (
+                <Button onClick={endSale} disabled={!products.length}>
+                  Terminar pedido
+                </Button>
+              )}
             </div>
           </div>
 

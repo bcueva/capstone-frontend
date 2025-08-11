@@ -9,6 +9,15 @@ export const getAllTables = async () => {
   }
 }
 
+export const getAvailableTables = async () => {
+  try {
+    const res = await api.get('/tables/availables')
+    return res.data
+  } catch (err) {
+    return handleApiError(err)
+  }
+}
+
 export const getTableBy = async ({ id }) => {
   try {
     const res = await api.get(`/tables/${id}`)
