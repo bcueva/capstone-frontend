@@ -7,10 +7,12 @@ export const useAuthStore = create((set) => ({
   token: window.localStorage.getItem('token') || null,
   user: null,
   isAuthenticated: false,
+  error: null,
 
   login: async ({ email, password }) => {
     const { status, data, message } = await postLogin({ email, password })
     if (status !== 'success') {
+      set({ error: 'Usuario y/o contraseña incorrectos' })
       throw new Error(message || 'Login fallido')
     }
 
