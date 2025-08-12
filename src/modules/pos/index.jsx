@@ -161,7 +161,7 @@ const POSPage = ({ params }) => {
 
     const sale = {
       companyRuc: form.companyRuc,
-      tableId: form.number,
+      tableId: parseInt(form.number),
       details
     }
 
@@ -188,7 +188,7 @@ const POSPage = ({ params }) => {
 
     const sale = {
       id: params.id,
-      tableId: tables[0]?.id,
+      tableId: parseInt(tables[0]?.id),
       endSale: true,
       details
     }
