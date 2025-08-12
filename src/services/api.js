@@ -12,18 +12,21 @@ export const handleApiError = (err) => {
     const { status, data } = err.response
     console.error(`Error ${status}: ${data.message}`)
     return {
+      status: 'error',
       success: false,
       message: data.message || 'An unexpected error occurred'
     }
   } else if (err.request) {
     console.error('No response received from API')
     return {
+      status: 'error',
       success: false,
       message: 'No response from server. Please try again later.'
     }
   } else {
     console.error('Error in API request setup:', err.message)
     return {
+      status: 'error',
       success: false,
       message: err.message
     }

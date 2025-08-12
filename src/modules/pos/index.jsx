@@ -162,6 +162,7 @@ const POSPage = ({ params }) => {
     const sale = {
       companyRuc: form.companyRuc,
       tableId: parseInt(form.number),
+      payType: form.payType,
       details
     }
 
@@ -189,6 +190,7 @@ const POSPage = ({ params }) => {
     const sale = {
       id: params.id,
       tableId: parseInt(tables[0]?.id),
+      payType: form.payType,
       endSale: true,
       details
     }
@@ -217,6 +219,7 @@ const POSPage = ({ params }) => {
 
     const sale = {
       id: params.id,
+      payType: form.payType,
       details
     }
 
