@@ -16,6 +16,7 @@ import { jsPDF as JsPDF } from 'jspdf'
 import autoTable from 'jspdf-autotable'
 import { useAuthStore } from '../../stores/useAuthStore'
 import logo from '../../assets/images/logo'
+import { useLocation } from 'wouter'
 
 const columnProperties = [
   { text: 'Código', property: 'code' },
@@ -48,6 +49,7 @@ const getDatetime = (format) => {
 }
 
 const POSPage = ({ params }) => {
+  const [, setLocation] = useLocation()
   const user = useAuthStore((state) => state.user)
   const { form, handleChange, updateForm } = useForm({
     number: '',
@@ -201,6 +203,7 @@ const POSPage = ({ params }) => {
         toast.success('Venta registrada con exito')
         generarBoleta()
         clearSale()
+        setLocation('/mesas')
       } else {
         toast.error('No se pudo registrar la venta')
       }
@@ -228,6 +231,7 @@ const POSPage = ({ params }) => {
       if (res.status === 'success') {
         toast.success('Pedido actualizo con exito')
         clearSale()
+        setLocation('/mesas')
       } else {
         toast.error('No se pudo actualizar el pedido')
       }
